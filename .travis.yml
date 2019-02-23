@@ -24,7 +24,7 @@ matrix:
         mvn -B -U -Pci \
         -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
         -DskipSlowTests=true \
-        -DforkCount=2C \
+        -DforkCount=1C \
         -Dtestdb.url=h2:mem:test$\{surefire.forkNumber\}\;DB_CLOSE_DELAY=-1\;MVCC=TRUE\;DEFAULT_LOCK_TIMEOUT=60000 \
         clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
     - if: repo = gruelbox/orko AND NOT branch = master AND NOT tag IS present AND NOT type = pull_request
@@ -35,7 +35,7 @@ matrix:
         mvn -B -U -Pci \
         -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
         -DskipSlowTests=true \
-        -DforkCount=2C \
+        -DforkCount=1C \
         -Dtestdb.url=h2:mem:test$\{surefire.forkNumber\}\;DB_CLOSE_DELAY=-1\;MVCC=TRUE\;DEFAULT_LOCK_TIMEOUT=60000 \
         -Dsonar.branch.name=$TRAVIS_BRANCH \
         clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
@@ -46,7 +46,7 @@ matrix:
         mvn -B -U -Pci \
         -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
         -DskipSlowTests=true \
-        -DforkCount=2C \
+        -DforkCount=1C \
         -Dtestdb.url=h2:mem:test$\{surefire.forkNumber\}\;DB_CLOSE_DELAY=-1\;MVCC=TRUE\;DEFAULT_LOCK_TIMEOUT=60000 \
         -Dsonar.branch.name=$TRAVIS_BRANCH \
         clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
@@ -60,7 +60,7 @@ matrix:
         mvn -B -U -Pci \
         -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
         -DskipSlowTests=true \
-        -DforkCount=2C \
+        -DforkCount=1C \
         -Dtestdb.url=h2:mem:test$\{surefire.forkNumber\}\;DB_CLOSE_DELAY=-1\;MVCC=TRUE\;DEFAULT_LOCK_TIMEOUT=60000 \
         -Dsonar.pullrequest.provider=github \
         -Dsonar.pullrequest.github.repository=gruelbox/orko \
@@ -75,18 +75,18 @@ matrix:
         mvn -B -U \
         -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
         -DskipSlowTests=true \
-        -DforkCount=2C \
+        -DforkCount=1C \
         -Dtestdb.url=h2:mem:test$\{surefire.forkNumber\}\;DB_CLOSE_DELAY=-1\;MVCC=TRUE\;DEFAULT_LOCK_TIMEOUT=60000 \
         clean install 
     - name: "MySQL tests"
       services: mysql
       before_install: mysql -e 'CREATE DATABASE test;'
       script: |
-         mvn -B -U \
-         -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn  \
-         -Dspotbugs.skip=true -Dcheckstyle.skip -DskipSlowTests=true \
-         -Dmorf.mysql.noadmin=true -Dtestdb.url=mysql://travis@127.0.0.1/test \
-         clean test
+        mvn -B -U \
+        -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn  \
+        -Dspotbugs.skip=true -Dcheckstyle.skip -DskipSlowTests=true \
+        -Dmorf.mysql.noadmin=true -Dtestdb.url=mysql://travis@127.0.0.1/test \
+        clean test
 cache:
   npm: true
   directories:
