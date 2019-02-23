@@ -244,7 +244,6 @@ class ScriptJobProcessor implements ScriptJob.Processor {
     public void done() {
       done = true;
       jobControl.finish(SUCCESS);
-      throw new ExitException();
     }
 
     @Override
@@ -292,13 +291,7 @@ class ScriptJobProcessor implements ScriptJob.Processor {
       if (done)
         return;
       try {
-        transactionally.run(() -> {
-          try {
-            runnable.run();
-          } catch (ExitException e) {
-            // Fine. We're done
-          }
-        });
+        transactionally.run(runnable);
         successfulPoll();
       } catch (PermanentFailureException e) {
         notifyAndLogError(SCRIPT_JOB_PREFIX + job.name() + PERMANENTLY_FAILED + e.getMessage(), e);
@@ -474,15 +467,5 @@ class ScriptJobProcessor implements ScriptJob.Processor {
           .implement(ScriptJob.Processor.class, ScriptJobProcessor.class)
           .build(ScriptJob.Processor.ProcessorFactory.class));
     }
-  }
-
-  /**
-   * Slightly filthy. Exception which forces execution to
-   * exit after calling control.done(). Otherwise it's too easy for
-   * a scriptwriter to cause an endless loop by not realising that
-   * control.done() doesn't cause exit.
-   */
-  private static final class ExitException extends RuntimeException {
-    private static final long serialVersionUID = 7680880935814943979L;
   }
 }

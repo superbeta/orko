@@ -194,6 +194,7 @@ public class TestScriptJobProcessor {
         + "  notifications.error('Error')\n"
         + "  if (count >= 3) {\n"
         + "    control.done()\n"
+        + "    return\n"
         + "    notifications.info('Should not get here')\n"
         + "  } else {\n"
         + "    count++\n"
