@@ -85,7 +85,7 @@ matrix:
          mvn -B -U \
          -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn  \
          -Dspotbugs.skip=true -Dcheckstyle.skip -DskipSlowTests=true \
-         -Dmorf.mysql.noadmin=true -Dtestdb.url=mysql://travis@127.0.0.1/test
+         -Dmorf.mysql.noadmin=true -Dtestdb.url=mysql://travis@127.0.0.1/test \
          clean test
 cache:
   npm: true
